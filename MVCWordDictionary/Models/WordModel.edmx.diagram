@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="fff37d20d3aa4e1b88978c0dc5aedf73" Name="Diagram1" >
+        <EntityTypeShape EntityType="WordManagerModel.Answer" Width="1.5" PointX="10.5" PointY="18.375" />
+        <EntityTypeShape EntityType="WordManagerModel.aspnet_Applications" Width="1.5" PointX="0.75" PointY="10.125" />
+        <EntityTypeShape EntityType="WordManagerModel.aspnet_Membership" Width="1.5" PointX="7.5" PointY="8.125" />
+        <EntityTypeShape EntityType="WordManagerModel.aspnet_Paths" Width="1.5" PointX="3" PointY="18" />
+        <EntityTypeShape EntityType="WordManagerModel.aspnet_PersonalizationAllUsers" Width="1.5" PointX="5.25" PointY="21.375" />
+        <EntityTypeShape EntityType="WordManagerModel.aspnet_PersonalizationPerUser" Width="1.5" PointX="7.5" PointY="14.5" />
+        <EntityTypeShape EntityType="WordManagerModel.aspnet_Profile" Width="1.5" PointX="7.5" PointY="4.625" />
+        <EntityTypeShape EntityType="WordManagerModel.aspnet_Roles" Width="1.5" PointX="3" PointY="8.625" />
+        <EntityTypeShape EntityType="WordManagerModel.aspnet_SchemaVersions" Width="1.5" PointX="0.75" PointY="1.75" />
+        <EntityTypeShape EntityType="WordManagerModel.aspnet_Users" Width="1.5" PointX="5.25" PointY="8.875" />
+        <EntityTypeShape EntityType="WordManagerModel.aspnet_WebEvent_Events" Width="1.5" PointX="2.75" PointY="1.75" />
+        <EntityTypeShape EntityType="WordManagerModel.Category" Width="1.5" PointX="6" PointY="1.125" />
+        <EntityTypeShape EntityType="WordManagerModel.Lesson" Width="1.5" PointX="8.25" PointY="1.125" />
+        <EntityTypeShape EntityType="WordManagerModel.LessonDetail" Width="1.5" PointX="10.5" PointY="9.25" />
+        <EntityTypeShape EntityType="WordManagerModel.sysdiagrams" Width="1.5" PointX="4.75" PointY="4.75" />
+        <EntityTypeShape EntityType="WordManagerModel.Word" Width="1.5" PointX="8.25" PointY="18" />
+        <AssociationConnector Association="WordManagerModel.FK_Answer_Word" />
+        <AssociationConnector Association="WordManagerModel.FK__aspnet_Me__Appli__59FA5E80" />
+        <AssociationConnector Association="WordManagerModel.FK__aspnet_Pa__Appli__1332DBDC" />
+        <AssociationConnector Association="WordManagerModel.FK__aspnet_Ro__Appli__7C4F7684" />
+        <AssociationConnector Association="WordManagerModel.FK__aspnet_Us__Appli__45F365D3" />
+        <AssociationConnector Association="WordManagerModel.FK__aspnet_Me__UserI__5AEE82B9" />
+        <AssociationConnector Association="WordManagerModel.FK__aspnet_Pe__PathI__1AD3FDA4" />
+        <AssociationConnector Association="WordManagerModel.FK__aspnet_Pe__PathI__208CD6FA" />
+        <AssociationConnector Association="WordManagerModel.FK__aspnet_Pe__UserI__2180FB33" />
+        <AssociationConnector Association="WordManagerModel.FK__aspnet_Pr__UserI__70DDC3D8" />
+        <AssociationConnector Association="WordManagerModel.FK_LessonDetail_aspnet_Users" />
+        <AssociationConnector Association="WordManagerModel.FK_Lesson_Category" />
+        <AssociationConnector Association="WordManagerModel.FK_Word_Category" />
+        <AssociationConnector Association="WordManagerModel.FK_LessonDetail_Lesson" />
+        <AssociationConnector Association="WordManagerModel.FK_LessonDetail_Word" />
+        <AssociationConnector Association="WordManagerModel.aspnet_UsersInRoles" />
+        <EntityTypeShape EntityType="WordManagerModel.Suppliers" Width="1.5" PointX="10.375" PointY="0.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

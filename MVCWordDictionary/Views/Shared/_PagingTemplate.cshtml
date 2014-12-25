@@ -1,0 +1,36 @@
+﻿@{
+    int count = (int)ViewData["RowCounts"];
+    var pageCount = Math.Ceiling((double)(count / 20.0));
+    int pageIndex = (int)ViewData["PageIndex"];
+}
+
+<nav>
+    <ul class="pagination">
+        @*<li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>*@
+        <li>
+            @Html.ActionLink("«", "Index", new { pageIndex = 1 })
+        </li>
+        @for (int i = 0; i < pageCount; i++)
+        {
+            if (pageIndex == i + 1)
+            {
+                <li class="active">
+                    @Html.ActionLink((i + 1).ToString(), "Index", new { pageIndex = i + 1 })
+                </li>
+            }
+            else
+            {
+                <li>
+                    @Html.ActionLink((i + 1).ToString(), "Index", new { pageIndex = i + 1 })
+                </li>
+            }
+        }
+        @*<li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>*@
+        <li>
+            @Html.ActionLink("»", "Index", new { pageIndex = pageCount })
+        </li>
+    </ul>
+    <ul class="pagination" style="float:right">
+        <li> @string.Format("Page {0}/{1}", pageIndex, pageCount)</li>
+    </ul>
+</nav>

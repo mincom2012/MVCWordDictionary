@@ -1,0 +1,120 @@
+﻿@model IEnumerable<MVCWordDictionary.Models.Suppliers>
+
+@{
+    ViewBag.Title = "Supply";
+}
+<p style="margin-top:20px">
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-small btn-primary" })
+</p>
+
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Suppliers list</div>
+    <!-- Table -->
+    <table class="table  table-bordered table-condensed col-md-12">
+        <tr>
+            @*<th>@Html.ActionLink("Delete", "DeleteAll")</th>*@
+            <th>
+                <a onclick="deleteAll();">Delete</a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CompanyName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContactName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContactTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Country)
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.CheckBox(item.SupplierID.ToString(), item.Status.Value, new { style = "margin-left:18px;", onclick = "select_supply(" + item.SupplierID + ");" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompanyName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Country)
+                </td>
+
+                <td width="250px">
+                    @Html.ActionLink("Edit", "Edit", new { id = item.SupplierID }, new { @class = "btn btn-small btn-primary" })
+                    @Html.ActionLink("Details", "Details", new { id = item.SupplierID }, new { @class = "btn btn-small btn-warning" })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.SupplierID }, new { @class = "btn btn-small btn-danger" })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+@Html.Partial("_PagingTemplate", ViewData)
+
+<script>
+    var lstSupplyDelete = "";
+    function select_supply(args) {
+        var arr = lstSupplyDelete.split(';');
+        lstSupplyDelete = "";
+        var isExist = false;
+        for (var i = 0; i < arr.length; i++) {
+
+            if (arr[i] != args) {
+                if (arr[i] != "") {
+                    lstSupplyDelete += arr[i] + ";";
+                }
+            }
+            else {
+                isExist = true;
+            }
+        }
+
+        if (!isExist) {
+            lstSupplyDelete += args;
+        }
+        else {
+            lstSupplyDelete = lstSupplyDelete.substring(0, lstSupplyDelete.length - 1);
+        }
+
+    }
+
+    function deleteAll() {
+        var obj = new Object();
+        obj.id = 100;
+
+        $.ajax({
+            type: "POST",
+            url: "/Supply/DeleteAll",
+            content: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(obj),
+            success: function (d) {
+                alert(d);
+            },
+            error: function (error) {
+                alert(error);
+            }
+        });
+
+    }
+</script>

@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using MVCWordDictionary.Models;
+using System.Web.Security;
+using System.Security;
 
 namespace MVCWordDictionary.Controllers
 {
@@ -41,14 +43,14 @@ namespace MVCWordDictionary.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public ActionResult Login(LoginViewModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindAsync(model.UserName, model.Password);
-                if (user != null)
+
+                if (Membership.ValidateUser(model.UserName, model.Password))
                 {
-                    await SignInAsync(user, model.RememberMe);
+                    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     return RedirectToLocal(returnUrl);
                 }
                 else
@@ -74,23 +76,21 @@ namespace MVCWordDictionary.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public ActionResult Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var user = new ApplicationUser() { UserName = model.UserName };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                if (ModelState.IsValid)
                 {
-                    await SignInAsync(user, isPersistent: false);
+                    var member = Membership.CreateUser(model.UserName, model.Password);
                     return RedirectToAction("Index", "Home");
                 }
-                else
-                {
-                    AddErrors(result);
-                }
             }
-
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex);
+            }
+            
             // If we got this far, something failed, redisplay form
             return View(model);
         }
@@ -124,7 +124,7 @@ namespace MVCWordDictionary.Controllers
                 : message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
                 : message == ManageMessageId.Error ? "An error has occurred."
                 : "";
-            ViewBag.HasLocalPassword = HasPassword();
+          ViewBag.HasLocalPassword = HasPassword();
             ViewBag.ReturnUrl = Url.Action("Manage");
             return View();
         }
@@ -142,15 +142,15 @@ namespace MVCWordDictionary.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
-                    }
-                    else
-                    {
-                        AddErrors(result);
-                    }
+                    //Membership.UpdateUser
+                    //if (result.Succeeded)
+                    //{
+                    //    return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
+                    //}
+                    //else
+                    //{
+                    //    AddErrors(result);
+                    //}
                 }
             }
             else
@@ -289,7 +289,7 @@ namespace MVCWordDictionary.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut();
+            FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
 
@@ -348,10 +348,10 @@ namespace MVCWordDictionary.Controllers
 
         private bool HasPassword()
         {
-            var user = UserManager.FindById(User.Identity.GetUserId());
+            var user = Membership.GetUser(User.Identity.Name);
             if (user != null)
             {
-                return user.PasswordHash != null;
+                return user.GetPassword() != null;
             }
             return false;
         }
@@ -378,7 +378,8 @@ namespace MVCWordDictionary.Controllers
 
         private class ChallengeResult : HttpUnauthorizedResult
         {
-            public ChallengeResult(string provider, string redirectUri) : this(provider, redirectUri, null)
+            public ChallengeResult(string provider, string redirectUri)
+                : this(provider, redirectUri, null)
             {
             }
 

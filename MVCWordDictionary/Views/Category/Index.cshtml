@@ -1,0 +1,97 @@
+﻿@model IEnumerable<MVCWordDictionary.Models.Category>
+
+@{
+    ViewBag.Title = "Category";
+}
+
+<h2>Category list</h2>
+
+@Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-small btn-primary" })
+
+<p>
+
+</p>
+
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Cagegories</div>
+
+    <!-- Table -->
+    <table class="table table-bordered table-condensed">
+        <tr>
+            <th>ID</th>
+            <th>
+                @Html.ActionLink("Category Name", "Index", new { sortOrder = ViewBag.SortingName })
+                @*@Html.DisplayNameFor(model => model.CategoryName)*@
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>Action</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td style="width:250px">
+                    @Html.ActionLink("Edit", "Edit", new { id = item.CategoryID }, new { @class = "btn btn-small btn-primary" })
+                    @Html.ActionLink("Details", "Details", new { id = item.CategoryID }, new { @class = "btn btn-small btn-warning" })
+                    @Ajax.ActionLink("Delete", "Delete", new { id = item.CategoryID }, new AjaxOptions
+               {
+                   HttpMethod = "Post",
+                   OnBegin = "return confirm_delete()"
+               }, new { @class = "btn btn-small btn-danger" })
+
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+<div id="dialog-confirm" title="Empty the recycle bin?" style="display:none">
+    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Do you want to delete?</p>
+</div>
+
+
+@Html.Partial("_PagingTemplate", ViewData)
+
+<script type="text/javascript">
+
+    function confirm_delete(e) {
+        var theHREF = $(this).attr("href");
+        $("#dialog-confirm").dialog({
+            resizable: false,
+            height: 200,
+            width: 400,
+            modal: true,
+            buttons: {
+                "Delete": {
+                    text: "Delete",
+                    class: "btn btn-small btn-danger",
+                    click: function () {
+                        window.location.href = theHREF;
+                        $(this).dialog("close");
+                    }
+                },
+                "Cancel": {
+                    text: "Cancel",
+                    class: "btn btn-small",
+                    click: function () {
+                        $(this).dialog("close");
+                        return false;
+                    }
+                }
+            }
+        });
+        return false;
+    }
+</script>

@@ -13,6 +13,13 @@ namespace MVCWordDictionary
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            //Admin Controller
+            routes.MapRoute(
+                name: "Amdin Controller",
+                url: "admin/{action}",
+                defaults: new { controller = "Manager", action = "Index"}
+            );
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
