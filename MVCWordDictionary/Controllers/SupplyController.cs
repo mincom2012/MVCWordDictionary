@@ -135,10 +135,17 @@ namespace MVCWordDictionary.Controllers
             base.Dispose(disposing);
         }
 
-        
-        public JsonResult DeleteAll(int id)
+        public JsonResult DeleteAll(string productIDs)
         {
-            return Json("minh delete all completed" + id);
+            var array = productIDs.Split(';').ToList();
+            for (int i = 0; i < array.Count; i++)
+            {
+                int productID = Convert.ToInt16(array[i]);
+                db.Delete(productID);    
+            }
+            db.Save();
+
+            return Json("Delete completed!");
         }
         
         public JsonResult SelectSupply(int id)

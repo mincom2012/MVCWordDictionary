@@ -26,12 +26,12 @@ namespace MVCWordDictionary.Models
 
         public void Update(Suppliers model)
         {
-            throw new NotImplementedException();
+            _db.Entry(model).State = System.Data.Entity.EntityState.Modified;
         }
 
         public void Insert(Suppliers model)
         {
-            throw new NotImplementedException();
+            _db.Suppliers.Add(model);
         }
 
         public void Delete(Guid id)
@@ -41,17 +41,21 @@ namespace MVCWordDictionary.Models
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var supply = _db.Suppliers.Where(x => x.SupplierID == id).FirstOrDefault();
+            if (supply !=null)
+            {
+                _db.Suppliers.Remove(supply);
+            }
         }
 
         public void Save()
         {
-            throw new NotImplementedException();
+            _db.SaveChanges();
         }
 
         public void Reject()
         {
-            throw new NotImplementedException();
+            _db.Dispose();
         }
     }
 }

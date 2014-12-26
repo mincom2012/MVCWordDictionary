@@ -15,7 +15,7 @@
         <tr>
             @*<th>@Html.ActionLink("Delete", "DeleteAll")</th>*@
             <th>
-                <a onclick="deleteAll();">Delete</a>
+                <a onclick="return deleteAll();" style="cursor:pointer">Delete</a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CompanyName)
@@ -97,22 +97,28 @@
         }
 
     }
+   
 
     function deleteAll() {
+        if (lstSupplyDelete=="") {
+            alert("You must be select lastest one item.")
+            return false;
+        }
+
         var obj = new Object();
-        obj.id = 100;
+        obj.productIDs = lstSupplyDelete;
 
         $.ajax({
-            type: "POST",
-            url: "/Supply/DeleteAll",
-            content: "application/json; charset=utf-8",
-            dataType: "json",
+            type: 'POST',
+            url: 'DeleteAll',
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
             data: JSON.stringify(obj),
             success: function (d) {
-                alert(d);
+                window.location.reload();
             },
-            error: function (error) {
-                alert(error);
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest + " - " + errorThrown);
             }
         });
 

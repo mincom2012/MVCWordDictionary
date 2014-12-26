@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 
-namespace MVCWordDictionary.Entities
+namespace MVCWordDictionary.Models
 {
 
     [MetadataType(typeof(SuppliersMetadata))]
@@ -16,6 +16,7 @@ namespace MVCWordDictionary.Entities
             public int SupplierID { get; set; }
 
             [Display(Name = "Company name")]
+            [Required]
             public string CompanyName { get; set; }
 
             [Display(Name = "Contact name")]
