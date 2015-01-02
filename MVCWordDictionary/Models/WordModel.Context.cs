@@ -44,6 +44,8 @@ namespace MVCWordDictionary.Models
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Word> Word { get; set; }
         public virtual DbSet<Suppliers> Suppliers { get; set; }
+        public virtual DbSet<Comment> Comment { get; set; }
+        public virtual DbSet<News> News { get; set; }
     
         public virtual ObjectResult<Nullable<System.Guid>> aspnet_Membership_CreateUser(string applicationName, string userName, string password, string passwordSalt, string email, string passwordQuestion, string passwordAnswer, Nullable<bool> isApproved, Nullable<System.DateTime> currentTimeUtc, Nullable<System.DateTime> createDate, Nullable<int> uniqueEmail, Nullable<int> passwordFormat, ObjectParameter userId)
         {

@@ -38,6 +38,9 @@
         <AssociationConnector Association="WordManagerModel.FK_LessonDetail_Word" />
         <AssociationConnector Association="WordManagerModel.aspnet_UsersInRoles" />
         <EntityTypeShape EntityType="WordManagerModel.Suppliers" Width="1.5" PointX="10.375" PointY="0.75" />
+        <EntityTypeShape EntityType="WordManagerModel.Comment" Width="1.5" PointX="14.625" PointY="1.25" />
+        <EntityTypeShape EntityType="WordManagerModel.News" Width="1.5" PointX="12.375" PointY="1" />
+        <AssociationConnector Association="WordManagerModel.FK_Comment_News" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

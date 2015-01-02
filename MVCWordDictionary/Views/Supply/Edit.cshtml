@@ -1,7 +1,17 @@
-﻿@model MVCWordDictionary.Models.Suppliers
+﻿@using CustomHelpers
+
+@model MVCWordDictionary.Models.Suppliers
+
+
 
 @{
     ViewBag.Title = "Edit Supply";
+
+}
+
+@foreach (var item in Model.Locations)
+{
+    @item.LocationName;
 }
 
 <h4>Edit Supply</h4>
@@ -65,7 +75,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.PostalCode, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.PostalCode, null, new { @class = "form-control", @style = "float:left; margin-right: 8px" })
+                @Html.TextBoxFor(model1 => model1.PostalCode, null, new { @class = "form-control", @style = "float:left; margin-right: 8px" })
                 @Html.ValidationMessageFor(model => model.PostalCode)
             </div>
         </div>
@@ -73,7 +83,9 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Country, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Country, null, new { @class = "form-control", @style = "float:left; margin-right: 8px" })
+                @*@Html.TextBoxFor(model => model.Country, null, new { @class = "form-control", @style = "float:left; margin-right: 8px" })*@
+                @Html.DropDownListFor(model => model.Country, ViewBag.lstCountry as IEnumerable<SelectListItem>)
+
                 @Html.ValidationMessageFor(model => model.Country)
             </div>
         </div>
@@ -113,3 +125,7 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+<script type="text/javascript">
+    @Html.RenderScripts()
+</script>

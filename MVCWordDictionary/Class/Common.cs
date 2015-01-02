@@ -17,5 +17,7 @@ namespace MVCWordDictionary
             return Convert.ToBase64String(hash);
         }
 
+        
+
     }
 }

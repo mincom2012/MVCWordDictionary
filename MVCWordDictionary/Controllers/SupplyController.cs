@@ -11,7 +11,7 @@ using PagedList;
 
 namespace MVCWordDictionary.Controllers
 {
-    public class SupplyController : Controller
+    public class SupplyController : Controller, IActionFilter
     {
         IRepository<Suppliers> db = new SupplyRepository();
         public List<int> lstSupplyDelete = new List<int>();
@@ -72,6 +72,14 @@ namespace MVCWordDictionary.Controllers
         // GET: /Supply/Edit/5
         public ActionResult Edit(int? id)
         {
+            //List<SelectListItem> lstCountry = new List<SelectListItem>();
+            //lstCountry.Add(new SelectListItem { Value ="Findland", Text="Findland" });
+            //lstCountry.Add(new SelectListItem { Value = "VN", Text = "VietNam" });
+            //lstCountry.Add(new SelectListItem { Value = "Lao", Text = "Lao" });
+            //lstCountry.Add(new SelectListItem { Value = "campuchia", Text = "Campuchia" });
+
+            //ViewBag.lstCountry = lstCountry;
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -81,6 +89,15 @@ namespace MVCWordDictionary.Controllers
             {
                 return HttpNotFound();
             }
+
+            suppliers.Locations = new List<Location>() {
+                                        new Location(){LocationID ="Findland", LocationName="findland"},
+                                        new Location(){LocationID ="VN", LocationName="Vietnam"},
+                                        new Location(){LocationID ="Lao", LocationName="Lao"},
+                                        new Location(){LocationID ="Campuchia", LocationName="Campuchia"}};
+
+            ViewBag.lstCountry = suppliers.Locations.Select(x => new SelectListItem { Value = x.LocationID, Text = x.LocationName }).ToList();
+
             return View(suppliers);
         }
 
@@ -141,13 +158,13 @@ namespace MVCWordDictionary.Controllers
             for (int i = 0; i < array.Count; i++)
             {
                 int productID = Convert.ToInt16(array[i]);
-                db.Delete(productID);    
+                db.Delete(productID);
             }
             db.Save();
 
             return Json("Delete completed!");
         }
-        
+
         public JsonResult SelectSupply(int id)
         {
             if (lstSupplyDelete.Contains(id))
@@ -160,6 +177,16 @@ namespace MVCWordDictionary.Controllers
             }
 
             return Json("minh 123");
+        }
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            base.OnActionExecuting(filterContext);
+        }
+
+        protected override void OnActionExecuted(ActionExecutedContext filterContext)
+        {
+            base.OnActionExecuted(filterContext);
         }
     }
 }

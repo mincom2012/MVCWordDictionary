@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
+using System.Xml.Linq;
 
 namespace MVCWordDictionary
 {
@@ -20,14 +22,23 @@ namespace MVCWordDictionary
         //        pageNumber = 1;
         //    }
 
-          
+
         //    int excludedRows = (pageNumber - 1) * pageSize;
         //    var objNew = Activator.CreateInstance<T>();
-            
+
         //    lstAll = lstAll.OrderBy(x=> "CategoryName");
-            
+
         //    return lstAll.Skip(excludedRows).Take(pageSize);
         //}
 
+        public static string GetValueElement(this XElement element, XName xName)
+        {
+            string result = string.Empty;
+            if (element.Element(xName) != null)
+            {
+                result = element.Element(xName).Value;
+            }
+            return result;
+        }
     }
 }
