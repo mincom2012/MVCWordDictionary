@@ -4,16 +4,25 @@
     ViewBag.Title = "Add News";
 }
 
-<h2>Add news</h2>
+<div class="col-md-11">
+    <h2>Add news</h2>
+</div>
+<div class="col-md-1">
+    <h2>
+        @Html.ActionLink(" ", "Preview", null, new { @class = "btn btn-primary glyphicon glyphicon-eye-open", @title = "Preview", @target = "_blank" })
+    </h2>
+</div>
+<div class="clearfix"></div>
 
-@using (Html.BeginForm("Create", "News", FormMethod.Post, new { enctype = "multipart/form-data" }))
+<hr />
+@using ( Html.BeginForm("Create", "News", FormMethod.Post, new { enctype = "multipart/form-data" }) )
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true)
 
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.NewID);
         <div class="form-group">
             <div class="form-group">
                 @Html.LabelFor(model => model.Title, new { @class = "control-label col-md-2" })
@@ -34,7 +43,10 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Contents, new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Contents, new { @class = "form-control", @style = "float:left; margin-right: 8px" })
+                    @*@Html.TextAreaFor(model => model.Contents, new { @id = "content", @style = "float:left; margin-right: 8px" })*@
+
+                    @Html.TextAreaFor(model => model.Contents, new { @id = "content", @class = "form-control" })
+
                     @Html.ValidationMessageFor(model => model.Contents)
                 </div>
             </div>
@@ -45,18 +57,8 @@
                     @Html.TextBoxFor(model => model.ImageThumb, new { type = "file", accept = "image/*", onchange = "chose_image(this, event);" })
                     @Html.ValidationMessageFor(model => model.ImageThumb)
                 </div>
-                <div class="col-md-2 col-sm-offset-2 thumbnail">
-                    <img id="imageThumb_preview"/>
-                </div>
-            </div>
-
-           
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Image, new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.Image, new { @class = "form-control", @style = "float:left; margin-right: 8px" })
-                    @Html.ValidationMessageFor(model => model.Image)
+                <div id="img" class="col-md-2 col-sm-offset-2 thumbnail" style="display:none">
+                    <img id="imageThumb_preview" />
                 </div>
             </div>
 
@@ -72,7 +74,7 @@
                 @Html.LabelFor(model => model.NewType, new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @*@Html.TextBoxFor(model => model.NewType, new { @class = "form-control", @style = "float:left; margin-right: 8px" })*@
-                    @Html.DropDownListFor(model => model.NewType, ViewBag.lstNewType as IEnumerable<SelectListItem>, new  { @class = "form-control", @style ="width:200px"  })
+                    @Html.DropDownListFor(model => model.NewType, ViewBag.lstNewType as IEnumerable<SelectListItem>, new { @class = "form-control", @style = "width:200px" })
                     @Html.ValidationMessageFor(model => model.NewType)
                 </div>
             </div>
@@ -90,23 +92,38 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 
+@Scripts.Render("~/bundles/fckeditor");
+
 @section scripts{
     <script type="text/javascript">
-        function chose_image(input) {
-                var url = input.value;
-                var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
-                if (input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
-                    var reader = new FileReader();
-
-                    reader.onload = function (e) {
-                        $('#imageThumb_preview').attr('src', e.target.result);
-                    }
-
-                    reader.readAsDataURL(input.files[0]);
-                } else {
-                    $('imageThumb_preview').attr('src', '/Content/Image1.JPG');
-                }
+        window.onload = function () {
+            var sBasePath = '@Url.Content("~/Scripts/fckeditor/")';
+            var oFCKeditor = new FCKeditor('content');
+            oFCKeditor.BasePath = sBasePath;
+            oFCKeditor.Height = 450;
+            oFCKeditor.ReplaceTextarea();
         }
+
+        function chose_image(input) {
+            var url = input.value;
+            var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+            if (input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#img').css("display", "block");
+                    $('#imageThumb_preview').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                $('imageThumb_preview').attr('src', '/Content/Image1.JPG');
+            }
+        }
+
+
     </script>
 }
+
+
 

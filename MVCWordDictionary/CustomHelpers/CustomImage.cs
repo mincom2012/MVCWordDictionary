@@ -21,6 +21,19 @@ namespace CustomHelpers
             return MvcHtmlString.Create(imageTag.ToString(TagRenderMode.SelfClosing));
         }
 
+
+        public static MvcHtmlString CustomImage( this HtmlHelper htmlHelper, string src, string alt, string className )
+        {
+            var imageTag = new TagBuilder("image");
+            imageTag.MergeAttribute("src", src);
+            imageTag.MergeAttribute("alt", alt);
+            imageTag.MergeAttribute("class", className);
+
+            return MvcHtmlString.Create(imageTag.ToString(TagRenderMode.SelfClosing));
+        }
+
+
+
         public static HtmlString RenderScripts(this HtmlHelper htmlHelpr) {
             var scripts = htmlHelpr.ViewContext.HttpContext.Items["Scripts"] as IList<string>;
             if (scripts !=null)

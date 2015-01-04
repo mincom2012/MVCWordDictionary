@@ -17,14 +17,17 @@ namespace MVCWordDictionary.Models
             public string Description { get; set; }
 
             [AllowHtml]
-            [UIHint("tinymce_full")]
             [Display(Name = "Page Content")]
             public string Contents { get; set; }
             public string ImageThumb { get; set; }
             public string Image { get; set; }
             public string Author { get; set; }
             public Nullable<int> NewType { get; set; }
+
+            [DisplayFormat(DataFormatString="{0:dd/MM/yyyy hh:mm:ss}")]
             public Nullable<System.DateTime> CreatedDate { get; set; }
+
+            [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm:ss}")]
             public Nullable<System.DateTime> ModifiedDate { get; set; }
         }
     }

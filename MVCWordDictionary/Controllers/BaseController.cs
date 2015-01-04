@@ -8,7 +8,7 @@ namespace MVCWordDictionary.Controllers
 {
     public interface IBaseController<T>
     {
-        ActionResult Index();
+        ActionResult Index(int? pageIndex);
 
         ActionResult Show();
 

@@ -8,16 +8,21 @@ using System.Web;
 using System.Web.Mvc;
 using MVCWordDictionary.Models;
 using System.Web.Helpers;
+using MVCWordDictionary.Enumeration;
+using System.IO;
+using System.Configuration;
 
 namespace MVCWordDictionary.Controllers
 {
-    public class NewsController : Controller,  IBaseController<News>
+    public class NewsController : Controller, IBaseController<News>
     {
         IRepository<News> service = new NewsRepository();
 
-        public ActionResult Index()
+        public ActionResult Index( int? pageIndex )
         {
             IQueryable<News> lst = service.GetAll();
+            ViewData["RowCounts"] = lst.Count();
+            ViewData["PageIndex"] = pageIndex == null ? 0 : pageIndex;
             return View(lst);
         }
 
@@ -29,35 +34,89 @@ namespace MVCWordDictionary.Controllers
         public ActionResult New()
         {
             List<SelectListItem> lst = new List<SelectListItem>();
-            lst.Add(new SelectListItem { Value = "1", Text = "1" });
-            lst.Add(new SelectListItem { Value = "2", Text = "2" });
-            lst.Add(new SelectListItem { Value = "3", Text = "3" });
+
+            var lst1 = Enum.GetValues(typeof(NewsType));
+            foreach ( var item in lst1 )
+            {
+                var obj = EnumResource.ResourceManager.GetString(typeof(NewsType).Name + "_" + item.ToString());
+                lst.Add(new SelectListItem { Value = Convert.ToInt32(item).ToString(), Text = obj });
+
+            }
+
             ViewBag.lstNewType = lst;
+
             return View("AddNews");
         }
 
-        public ActionResult Create(News obj)
+        public ActionResult Create( News obj )
         {
             var imgthumb = Request.Files["imageThumb"];
-            var img = Request.Files["image"];
-            return View();
+
+            if ( imgthumb.ContentLength > 0 )
+            {
+                var fileName = Path.GetFileName(imgthumb.FileName);
+                string imageNews_thumb = ConfigurationManager.AppSettings["ImageNews_Thumb"].ToString();
+                var path = Path.Combine(Server.MapPath(imageNews_thumb), fileName);
+                imgthumb.SaveAs(path);
+                obj.ImageThumb = fileName;
+            }
+
+            obj.ModifiedDate = DateTime.Now;
+
+            if ( obj.NewID == Guid.Empty )
+            {
+                obj.NewID = Guid.NewGuid();
+                obj.CreatedDate = DateTime.Now;
+                service.Insert(obj);
+            }
+            else {
+                service.Update(obj);
+            }
+
+            service.Save();
+            return RedirectToAction("Index");
         }
 
-        public ActionResult Edit(object id)
+
+
+        public ActionResult Edit( object id )
+        {
+            var news = service.GetDetail(new Guid(id.ToString()));
+            if ( news == null )
+            {
+                throw new Exception("The record not exists.");
+            }
+
+            List<SelectListItem> lst = new List<SelectListItem>();
+
+            var lst1 = Enum.GetValues(typeof(NewsType));
+            foreach ( var item in lst1 )
+            {
+                var obj = EnumResource.ResourceManager.GetString(typeof(NewsType).Name + "_" + item.ToString());
+                lst.Add(new SelectListItem { Value = Convert.ToInt32(item).ToString(), Text = obj });
+
+            }
+
+            ViewBag.lstNewType = lst;
+
+            return View("AddNews", news);
+
+        }
+
+        public ActionResult Update( News obj )
         {
             throw new NotImplementedException();
         }
 
-        public ActionResult Update(News obj)
+        public ActionResult Delete( object id )
         {
-            throw new NotImplementedException();
-        }
+            service.Delete(new Guid(id.ToString()));
+            service.Save();
+            return RedirectToAction("Index");
 
-        public ActionResult Delete(object id)
-        {
-            throw new NotImplementedException();
         }
 
 
     }
 }
+

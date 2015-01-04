@@ -7,7 +7,7 @@ namespace MVCWordDictionary.Enumeration
 {
     public enum NewsType
     {
-        None = 0,
-        Technology = 1
+        None = 10,
+        Technology = 21
     }
 }

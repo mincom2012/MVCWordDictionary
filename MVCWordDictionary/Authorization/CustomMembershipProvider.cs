@@ -36,7 +36,7 @@ namespace MVCWordDictionary.Authorization
             if (user != null)
             {
                 var membership = user.aspnet_Membership;
-                membership.Password = Common.GenerateHashWithSalt(newPassword, _passwordSalt);
+                membership.Password = CommonHelper.GenerateHashWithSalt(newPassword, _passwordSalt);
             return _db.SaveChanges() > 0;
             }
             return false;
@@ -49,7 +49,7 @@ namespace MVCWordDictionary.Authorization
 
         public override MembershipUser CreateUser(string username, string password, string email, string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey, out MembershipCreateStatus status)
         {
-            string pass = Common.GenerateHashWithSalt(password, _passwordSalt);
+            string pass = CommonHelper.GenerateHashWithSalt(password, _passwordSalt);
             ObjectParameter param = new ObjectParameter("userID", DBNull.Value);
             ObjectResult<Guid?> userid = _db.aspnet_Membership_CreateUser("MVCWordDictionary", username, pass, _passwordSalt, "", "", "", true, DateTime.Now, DateTime.Now, 0, 6, param);
 
@@ -196,7 +196,7 @@ namespace MVCWordDictionary.Authorization
                 return false;
             }
 
-            if (user.aspnet_Membership.Password == Common.GenerateHashWithSalt(password, _passwordSalt))
+            if (user.aspnet_Membership.Password == CommonHelper.GenerateHashWithSalt(password, _passwordSalt))
             {
                 return true;
             }
