@@ -1,10 +1,8 @@
 ﻿@model IEnumerable<MVCWordDictionary.Models.News>
 
 @{
-    ViewBag.Title = "News list";
+    ViewBag.Title = "Manager News";
 }
-
-<h2>News list</h2>
 
 <p>
     @Html.ActionLink("Create New", "New", null, new { @class = "btn btn-primary" })
@@ -40,25 +38,27 @@
             <th></th>
         </tr>
 
-        @foreach ( var item in Model )
+        @foreach (var item in Model)
         {
             <tr>
                 <td class="col-md-2">
                     @Html.DisplayFor(modelItem => item.Title)
                 </td>
                 <td class="col-md-2">
-                    @Html.DisplayFor(modelItem => item.Description)
+                    @*@Html.DisplayFor(modelItem => item.Description)*@
+                    @Html.Raw(item.Description)
                 </td>
 
                 <td class="col-md-2">
                     @Html.CustomImage(CommonHelper.DisplayImageNewsThumb(item.ImageThumb), item.ImageThumb, "col-md-9")
+
                 </td>
 
                 <td class="col-md-1">
                     @Html.DisplayFor(modelItem => item.Author)
                 </td>
                 <td class="col-md-1">
-                    @Html.DisplayFor(modelItem => item.NewType)
+                    @CommonHelper.ConvertValueToStringEnum(typeof(MVCWordDictionary.Enumeration.NewsType), item.NewType.Value)
                 </td>
                 <td class="col-md-1">
                     @Html.DisplayFor(modelItem => item.CreatedDate)
@@ -66,14 +66,55 @@
                 <td class="col-md-1">
                     @Html.DisplayFor(modelItem => item.ModifiedDate)
                 </td>
-                <td class="col-md-2">
+                <td class="col-md-1">
                     @Html.ActionLink(" ", "Edit", new { id = item.NewID }, new { @class = "btn btn-warning glyphicon glyphicon-pencil" })
-                    @Html.ActionLink(" ", "Delete", new { id = item.NewID }, new { @class = "btn btn-danger glyphicon glyphicon-trash" })
+                    @Ajax.ActionLink(" ", "Delete", new { id = item.NewID }, new AjaxOptions
+               {
+                   HttpMethod = "Post",
+                   OnBegin = "return confirm_delete(this);"
+               }, new { @class = "btn btn-danger glyphicon glyphicon-trash" })
                 </td>
             </tr>
         }
 
     </table>
 </div>
+<div id="dialog-confirm" title="Empty the recycle bin?" style="display:none">
+    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Do you want to delete?</p>
+</div>
+
 
 @Html.Partial("_PagingTemplate", ViewData)
+
+@section scripts{
+    <script type="text/javascript">
+        function confirm_delete(events) {
+            $("#dialog-confirm").dialog({
+                resizable: false,
+                height: 200,
+                width: 400,
+                modla: true,
+                buttons: {
+                    "Delete": {
+                        text: "Delete",
+                        class: "btn btn-small btn-danger",
+                        click: function () {
+                            window.location.href = events;
+                            $(this).dialog("close");
+                        }
+                    },
+                    "Cancel": {
+                        text: "Cancel",
+                        class: "btn btn-default",
+                        click: function () {
+                            $(this).dialog("close");
+                            return false;
+                        }
+                    }
+                }
+            });
+            return false;
+        }
+    </script>
+
+}

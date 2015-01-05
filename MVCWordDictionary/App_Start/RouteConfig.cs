@@ -23,7 +23,7 @@ namespace MVCWordDictionary
             //tin-tuc/
             routes.MapRoute(
                 name: "News",
-                url: "tin-tuc/{action}/{id}",
+                url: "tintuc/{action}/{id}",
                 defaults: new { controller = "News", action = "Index" , id = UrlParameter.Optional}
             );
 

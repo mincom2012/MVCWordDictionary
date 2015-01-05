@@ -13,15 +13,27 @@ namespace MVCWordDictionary.Models
         public class NewsMetaData
         {
             public System.Guid NewID { get; set; }
+
+            [Required]
+            [StringLength(maximumLength:255)]
             public string Title { get; set; }
+
+            [Required]
             public string Description { get; set; }
 
+            [Required]
             [AllowHtml]
-            [Display(Name = "Page Content")]
+            [Display(Name = "Content")]
             public string Contents { get; set; }
+
+            [Display(Name="Image thumb")]
             public string ImageThumb { get; set; }
+
             public string Image { get; set; }
+
             public string Author { get; set; }
+
+            [Display(Name="News type")]
             public Nullable<int> NewType { get; set; }
 
             [DisplayFormat(DataFormatString="{0:dd/MM/yyyy hh:mm:ss}")]

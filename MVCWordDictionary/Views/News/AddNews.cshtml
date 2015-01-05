@@ -1,28 +1,30 @@
 ﻿@model MVCWordDictionary.Models.News
 
 @{
-    ViewBag.Title = "Add News";
+    ViewBag.Title = "Manager Add News";
 }
 
-<div class="col-md-11">
-    <h2>Add news</h2>
-</div>
-<div class="col-md-1">
-    <h2>
-        @Html.ActionLink(" ", "Preview", null, new { @class = "btn btn-primary glyphicon glyphicon-eye-open", @title = "Preview", @target = "_blank" })
-    </h2>
+<div class="col-md-12 right">
+
+    @Html.ActionLink(" ", "Preview", new { objNews =  @Model}, new { @class = "btn btn-danger glyphicon glyphicon-search pull-right", @title = "Preview", @target = "_blank", @style = "margin-bottom:8px" })
+
+    @*@Ajax.ActionLink(" ", "Preview", null, new AjaxOptions
+{
+    HttpMethod = "Post",
+    OnBegin = "preview_delegate"
+}, new { @class = "btn btn-danger glyphicon glyphicon-search pull-right", @title = "Preview", @style = "margin-bottom:8px" });*@
+
 </div>
 <div class="clearfix"></div>
 
-<hr />
-@using ( Html.BeginForm("Create", "News", FormMethod.Post, new { enctype = "multipart/form-data" }) )
+@using (Html.BeginForm("Create", "News", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
 
         @Html.ValidationSummary(true)
-        @Html.HiddenFor(model => model.NewID);
+        @Html.HiddenFor(model => model.NewID)
         <div class="form-group">
             <div class="form-group">
                 @Html.LabelFor(model => model.Title, new { @class = "control-label col-md-2" })
@@ -120,7 +122,6 @@
                 $('imageThumb_preview').attr('src', '/Content/Image1.JPG');
             }
         }
-
 
     </script>
 }

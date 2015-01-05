@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Xml.Linq;
@@ -9,28 +10,6 @@ namespace MVCWordDictionary
 {
     public static class Extention
     {
-        //public static IQueryable<T> ToPageList<T>(this IQueryable<T> lstAll, int pageNumber, int pageSize, out int rowsCount)
-        //{
-        //    if (pageSize <= 0)
-        //    {
-        //        pageSize = 20;
-        //    }
-
-        //    rowsCount = lstAll.Count();
-        //    if (rowsCount <= pageSize || pageNumber <= 0)
-        //    {
-        //        pageNumber = 1;
-        //    }
-
-
-        //    int excludedRows = (pageNumber - 1) * pageSize;
-        //    var objNew = Activator.CreateInstance<T>();
-
-        //    lstAll = lstAll.OrderBy(x=> "CategoryName");
-
-        //    return lstAll.Skip(excludedRows).Take(pageSize);
-        //}
-
         public static string GetValueElement(this XElement element, XName xName)
         {
             string result = string.Empty;
@@ -39,6 +18,44 @@ namespace MVCWordDictionary
                 result = element.Element(xName).Value;
             }
             return result;
+        }
+
+        public static MvcHtmlString CustomImage(this HtmlHelper htmlHelper, string src, string alt, int width, int height)
+        {
+            var imageTag = new TagBuilder("image");
+            imageTag.MergeAttribute("src", src);
+            imageTag.MergeAttribute("alt", alt);
+            imageTag.MergeAttribute("width", width.ToString());
+            imageTag.MergeAttribute("height", height.ToString());
+
+            return MvcHtmlString.Create(imageTag.ToString(TagRenderMode.SelfClosing));
+        }
+
+
+        public static MvcHtmlString CustomImage(this HtmlHelper htmlHelper, string src, string alt, string className)
+        {
+            var imageTag = new TagBuilder("image");
+            imageTag.MergeAttribute("src", src);
+            imageTag.MergeAttribute("alt", alt);
+            imageTag.MergeAttribute("class", className);
+
+            return MvcHtmlString.Create(imageTag.ToString(TagRenderMode.SelfClosing));
+        }
+
+        public static HtmlString RenderScripts(this HtmlHelper htmlHelpr)
+        {
+            var scripts = htmlHelpr.ViewContext.HttpContext.Items["Scripts"] as IList<string>;
+            if (scripts != null)
+            {
+                var builder = new StringBuilder();
+                foreach (var script in scripts)
+                {
+                    builder.AppendLine(script);
+                }
+                return new MvcHtmlString(builder.ToString());
+
+            }
+            return null;
         }
     }
 }

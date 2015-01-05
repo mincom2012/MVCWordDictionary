@@ -18,7 +18,7 @@ namespace MVCWordDictionary.Controllers
     {
         IRepository<News> service = new NewsRepository();
 
-        public ActionResult Index( int? pageIndex )
+        public ActionResult Index(int? pageIndex)
         {
             IQueryable<News> lst = service.GetAll();
             ViewData["RowCounts"] = lst.Count();
@@ -36,7 +36,7 @@ namespace MVCWordDictionary.Controllers
             List<SelectListItem> lst = new List<SelectListItem>();
 
             var lst1 = Enum.GetValues(typeof(NewsType));
-            foreach ( var item in lst1 )
+            foreach (var item in lst1)
             {
                 var obj = EnumResource.ResourceManager.GetString(typeof(NewsType).Name + "_" + item.ToString());
                 lst.Add(new SelectListItem { Value = Convert.ToInt32(item).ToString(), Text = obj });
@@ -48,11 +48,11 @@ namespace MVCWordDictionary.Controllers
             return View("AddNews");
         }
 
-        public ActionResult Create( News obj )
+        public ActionResult Create(News obj)
         {
             var imgthumb = Request.Files["imageThumb"];
 
-            if ( imgthumb.ContentLength > 0 )
+            if (imgthumb.ContentLength > 0)
             {
                 var fileName = Path.GetFileName(imgthumb.FileName);
                 string imageNews_thumb = ConfigurationManager.AppSettings["ImageNews_Thumb"].ToString();
@@ -63,13 +63,14 @@ namespace MVCWordDictionary.Controllers
 
             obj.ModifiedDate = DateTime.Now;
 
-            if ( obj.NewID == Guid.Empty )
+            if (obj.NewID == Guid.Empty)
             {
                 obj.NewID = Guid.NewGuid();
                 obj.CreatedDate = DateTime.Now;
                 service.Insert(obj);
             }
-            else {
+            else
+            {
                 service.Update(obj);
             }
 
@@ -78,11 +79,20 @@ namespace MVCWordDictionary.Controllers
         }
 
 
+        public ActionResult Preview()
+        {
+            News objNew = new News()
+            {
+                NewID = Guid.NewGuid(),
+                Description = "Description"
+            };
+            return View("Preview", objNew);
+        };
 
-        public ActionResult Edit( object id )
+        public ActionResult Edit(object id)
         {
             var news = service.GetDetail(new Guid(id.ToString()));
-            if ( news == null )
+            if (news == null)
             {
                 throw new Exception("The record not exists.");
             }
@@ -90,7 +100,7 @@ namespace MVCWordDictionary.Controllers
             List<SelectListItem> lst = new List<SelectListItem>();
 
             var lst1 = Enum.GetValues(typeof(NewsType));
-            foreach ( var item in lst1 )
+            foreach (var item in lst1)
             {
                 var obj = EnumResource.ResourceManager.GetString(typeof(NewsType).Name + "_" + item.ToString());
                 lst.Add(new SelectListItem { Value = Convert.ToInt32(item).ToString(), Text = obj });
@@ -103,12 +113,12 @@ namespace MVCWordDictionary.Controllers
 
         }
 
-        public ActionResult Update( News obj )
+        public ActionResult Update(News obj)
         {
             throw new NotImplementedException();
         }
 
-        public ActionResult Delete( object id )
+        public ActionResult Delete(object id)
         {
             service.Delete(new Guid(id.ToString()));
             service.Save();
