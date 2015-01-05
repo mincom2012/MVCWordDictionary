@@ -78,16 +78,17 @@ namespace MVCWordDictionary.Controllers
             return RedirectToAction("Index");
         }
 
-
-        public ActionResult Preview()
+        [HttpPost]
+        public JsonResult Preview(News model)
         {
             News objNew = new News()
             {
                 NewID = Guid.NewGuid(),
                 Description = "Description"
             };
-            return View("Preview", objNew);
-        };
+            return Json(model);
+        }
+
 
         public ActionResult Edit(object id)
         {

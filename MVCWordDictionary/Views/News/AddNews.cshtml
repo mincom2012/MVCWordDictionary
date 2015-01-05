@@ -4,22 +4,23 @@
     ViewBag.Title = "Manager Add News";
 }
 
-<div class="col-md-12 right">
 
-    @Html.ActionLink(" ", "Preview", new { objNews =  @Model}, new { @class = "btn btn-danger glyphicon glyphicon-search pull-right", @title = "Preview", @target = "_blank", @style = "margin-bottom:8px" })
 
-    @*@Ajax.ActionLink(" ", "Preview", null, new AjaxOptions
-{
-    HttpMethod = "Post",
-    OnBegin = "preview_delegate"
-}, new { @class = "btn btn-danger glyphicon glyphicon-search pull-right", @title = "Preview", @style = "margin-bottom:8px" });*@
-
-</div>
-<div class="clearfix"></div>
-
-@using (Html.BeginForm("Create", "News", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using ( Html.BeginForm("Create", "News", FormMethod.Post, new { enctype = "multipart/form-data" }) )
 {
     @Html.AntiForgeryToken()
+    <div class="col-md-12 right">
+
+        @*@Html.ActionLink(" ", "Preview", new { objNews =  @Model}, new { @class = "btn btn-danger glyphicon glyphicon-search pull-right", @title = "Preview", @target = "_blank", @style = "margin-bottom:8px" })*@
+
+        @Ajax.ActionLink(" ", "Preview", null, new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnBegin = "return preview_client(this)"
+}, new { @class = "btn btn-danger glyphicon glyphicon-search pull-right", @title = "Preview", @style = "margin-bottom:8px", @target = "_blank" })
+
+    </div>
+    <div class="clearfix"></div>
 
     <div class="form-horizontal">
 
@@ -121,6 +122,23 @@
             } else {
                 $('imageThumb_preview').attr('src', '/Content/Image1.JPG');
             }
+        }
+        //http://stackoverflow.com/questions/12828347/ajax-actionlink-post-entire-model-from-a-view
+        function preview_client(args) {
+            var model = @Html.Raw(Json.Encode(Model))
+
+            $.ajax({
+                url: args,
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                datatype: "json",
+                data: JSON.stringify(model),
+                success: function (result) {
+                    //window.open("http://localhost:11446/tintuc/PreviewThumb/", "popupWindow", "width=600,height=800,scrollbars=yes");
+                    alert(result.Title);
+                }
+            });
+            return false;
         }
 
     </script>
