@@ -10,27 +10,29 @@
 
 <div class="panel panel-default">
     <!-- Default panel contents -->
+    <div class="right" style="margin:8px">
+        @Html.ActionLink(" ", "Index", new { mode = "list" }, new { @id = "list", @class = "glyphicon glyphicon-th-list hover-underline " + (@ViewBag.DisplayDescription ? "color-unvisible" : "color-visible").ToString() })
+        @Html.ActionLink(" ", "Index", new { mode = "large" }, new { @id = "large", @class = "glyphicon glyphicon-th-large hover-underline " + (@ViewBag.DisplayDescription ? "color-visible" : "color-unvisible").ToString() })
+        @ViewData["RowCounts"] item
+    </div>
+
     <table class="table">
         <tr>
             <th>
+                @*@Html.DisplayNameFor(model => model.ImageThumb)*@
+            </th>
+
+            <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model.ImageThumb)
-            </th>
-
+            @*<th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Author)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.NewType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ModifiedDate)
@@ -40,54 +42,96 @@
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td class="col-md-2">
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td class="col-md-2">
-                    @*@Html.DisplayFor(modelItem => item.Description)*@
-                    @Html.Raw(item.Description)
+            <tr id="row" onmouseover="row_onmouseover(this);" onmouseout="row_onmouseout(this);">
+                <td class="col-md-1">
+                    @Html.CustomImage(CommonHelper.DisplayImageNewsThumb(item.ImageThumb), item.ImageThumb, 120, 0)
                 </td>
 
-                <td class="col-md-2">
-                    @Html.CustomImage(CommonHelper.DisplayImageNewsThumb(item.ImageThumb), item.ImageThumb, "col-md-9")
+                <td class="col-md-4">
+                    <div>
+                        @Html.ActionLink(item.Title, "Edit", new { id = item.NewID }, new { @style = "font-weight:bold" })
+                        @if (ViewBag.DisplayDescription)
+                        {
+                            <p id="description" style="font-style:italic">
+                                @Html.Raw(item.Description)
+                            </p>
+                        }
+
+                    </div>
+                    <div class="row-active">
+                        <span style="word-wrap:break-word">
+                            @Html.ActionLink(" ", "Edit", new { id = item.NewID }, new { @class = "btn glyphicon glyphicon-pencil", @title = "Edit" })
+                            <span class="icon-text">Edit</span>
+                        </span>
+
+                        <span style="word-wrap:break-word">
+                            @Ajax.ActionLink(" ", "QuickEdit", null, new AjaxOptions
+                                                                       {
+                                                                           HttpMethod = "Post",
+                                                                           OnBegin = "return quick_edit(this, '" + item.NewID + "');"
+                                                                       }, new { @class = "btn glyphicon glyphicon-edit", @title = "Quick edit", @id = item.NewID })
+                            <span class="icon-text">Quick edit</span>
+                        </span>
+                        <span style="word-wrap:break-word">
+                            @Ajax.ActionLink(" ", "Delete", new { id = item.NewID }, new AjaxOptions
+                                                                       {
+                                                                           HttpMethod = "Post",
+                                                                           OnBegin = "return confirm_delete(this);"
+                                                                       }, new { @class = "btn glyphicon glyphicon-trash", @title = "Delete" })
+                            <span class="icon-text">Delete</span>
+                        </span>
+                    </div>
 
                 </td>
 
                 <td class="col-md-1">
                     @Html.DisplayFor(modelItem => item.Author)
                 </td>
-                <td class="col-md-1">
+                <td class="col-md-2">
                     @CommonHelper.ConvertValueToStringEnum(typeof(MVCWordDictionary.Enumeration.NewsType), item.NewType.Value)
                 </td>
-                <td class="col-md-1">
-                    @Html.DisplayFor(modelItem => item.CreatedDate)
-                </td>
-                <td class="col-md-1">
+                <td class="col-md-2">
                     @Html.DisplayFor(modelItem => item.ModifiedDate)
                 </td>
-                <td class="col-md-1">
-                    @Html.ActionLink(" ", "Edit", new { id = item.NewID }, new { @class = "btn btn-warning glyphicon glyphicon-pencil" })
-                    @Ajax.ActionLink(" ", "Delete", new { id = item.NewID }, new AjaxOptions
+                <td class="col-md-2">
+                    <div style="float:right">
+                        @Html.ActionLink(" ", "Edit", new { id = item.NewID }, new { @class = "btn btn-warning glyphicon glyphicon-pencil" })
+                        @Ajax.ActionLink(" ", "Delete", new { id = item.NewID }, new AjaxOptions
                {
                    HttpMethod = "Post",
                    OnBegin = "return confirm_delete(this);"
                }, new { @class = "btn btn-danger glyphicon glyphicon-trash" })
+                    </div>
+
                 </td>
             </tr>
         }
-
     </table>
+
 </div>
+
 <div id="dialog-confirm" title="Empty the recycle bin?" style="display:none">
     <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Do you want to delete?</p>
 </div>
 
-
 @Html.Partial("_PagingTemplate", ViewData)
+
+@section otherscripts{
+    <script type="text/javascript">
+        function row_onmouseover(sender) {
+            $(sender).find('.row-active').css('visibility', 'visible');
+        }
+
+        function row_onmouseout(sender) {
+            $(sender).find('.row-active').css('visibility', 'hidden');
+        }
+
+    </script>
+}
 
 @section scripts{
     <script type="text/javascript">
+
         function confirm_delete(events) {
             $("#dialog-confirm").dialog({
                 resizable: false,
@@ -113,6 +157,39 @@
                     }
                 }
             });
+            return false;
+        }
+
+        function quick_edit(sender, args) {
+            var obj = new Object();
+            obj.id = args;
+
+            $.ajax({
+                url: sender,
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                datatype: "json",
+                data: JSON.stringify(obj),
+                success: function (result) {
+                    $('#quickedit').html(result);
+                    //$('#quickedit').css('position', 'absolute').css('top', '100px');
+                    //alert($('#' + args).find(".row-active").html());
+                }
+            });
+            return false;
+        }
+
+        function list_onclick(sender) {
+            $("#description").css('visibility', 'visible');
+            $('#list').removeClass('color-unvisible').addClass('color-visible')
+            $('#large').removeClass('color-visible').addClass('color-unvisible');
+            return false;
+        }
+
+        function large_onclick(sender) {
+            $("#description").css('visibility', 'hidden');
+            $('#large').removeClass('color-unvisible').addClass('color-visible')
+            $('#list').removeClass('color-visible').addClass('color-unvisible')
             return false;
         }
     </script>

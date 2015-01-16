@@ -39,6 +39,12 @@ namespace MVCWordDictionary
             return EnumResource.ResourceManager.GetString(type.Name + "_" + typeName);
         }
 
+        public static string DisplayBlockTimmer(DateTime currentDate) {
+            var dayOfWeek = currentDate.DayOfWeek.ToString();
+            return string.Format("{0}, {1}", GlobalResource.ResourceManager.GetString(dayOfWeek), currentDate);
+            
+        }
+
 
     }
 }

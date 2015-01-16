@@ -181,6 +181,7 @@
     <Compile Include="Controllers\SupplyController.cs" />
     <Compile Include="Controllers\WordController.cs" />
     <Compile Include="CustomAttributes\InputMarkAttribute.cs" />
+    <Compile Include="CustomAttributes\MaxCountAttribute.cs" />
     <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\DatabBinderAttribute.cs" />
     <Compile Include="Entities\Location.cs" />
@@ -194,6 +195,11 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GlobalResource.resx</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Answer.cs">
@@ -279,6 +285,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\CustomStyleSheet.css" />
     <Content Include="Content\Images\Image1.JPG" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -352,6 +359,7 @@
       <DependentUpon>WordModel.edmx</DependentUpon>
       <LastGenOutput>WordModel.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\CustomScripts\CustomValidation.js" />
     <Content Include="Scripts\fckeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.cfm" />
     <Content Include="Scripts\fckeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.php" />
     <Content Include="Scripts\fckeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.pl" />
@@ -988,6 +996,9 @@
     <Content Include="Views\News\Delete.cshtml" />
     <Content Include="Views\News\Edit.cshtml" />
     <Content Include="Views\News\Preview.cshtml" />
+    <Content Include="Views\Shared\QuickEditNewsPartial.cshtml" />
+    <Content Include="Views\News\DetailNews.cshtml" />
+    <Content Include="Views\Shared\Comment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1008,6 +1019,10 @@
     <EmbeddedResource Include="EnumResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>EnumResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GlobalResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>GlobalResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

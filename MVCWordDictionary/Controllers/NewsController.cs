@@ -23,7 +23,20 @@ namespace MVCWordDictionary.Controllers
             IQueryable<News> lst = service.GetAll();
             ViewData["RowCounts"] = lst.Count();
             ViewData["PageIndex"] = pageIndex == null ? 0 : pageIndex;
+
+            ViewBag.DisplayDescription = true;
+            if (Request.QueryString["Mode"] == null || Request.QueryString["Mode"] == "list")
+            {
+                ViewBag.DisplayDescription = false;
+            }
+
             return View(lst);
+        }
+
+        public ActionResult QuickEdit(Guid id)
+        {
+            var news = service.GetDetail(id);
+            return PartialView("~/Views/Shared/QuickEditNewsPartial.cshtml", news);
         }
 
         public ActionResult Show()
@@ -125,6 +138,17 @@ namespace MVCWordDictionary.Controllers
             service.Save();
             return RedirectToAction("Index");
 
+        }
+
+        public ActionResult Detail(Guid id)
+        {
+            var news = service.GetDetail(id);
+            if (news == null)
+            {
+                throw new Exception("Do not item");
+            }
+
+            return View("DetailNews", news);
         }
 
 

@@ -6,7 +6,7 @@ namespace MVCWordDictionary
     public class BundleConfig
     {
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
-        public static void RegisterBundles( BundleCollection bundles )
+        public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
@@ -16,7 +16,8 @@ namespace MVCWordDictionary
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*",
-                        "~/Scripts/jquery.unobtrusive-ajax*"));
+                        "~/Scripts/jquery.unobtrusive-ajax*",
+                        "~/Scripts/CustomScripts/CustomValidation.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/fckeditor").Include(
                          "~/Scripts/fckeditor/fckeditor.js"));
@@ -32,7 +33,9 @@ namespace MVCWordDictionary
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/CustomStyleSheet.css"));
+
             bundles.Add(new StyleBundle("~/Content/themes/css").Include(
                  "~/Content/themes/base/base.css",
                  "~/Content/themes/ui-lightness/jquery-ui.ui-lightness.css"

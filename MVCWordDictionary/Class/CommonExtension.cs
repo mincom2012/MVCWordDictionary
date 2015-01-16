@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.WebPages;
 using System.Xml.Linq;
 
 namespace MVCWordDictionary
@@ -20,14 +21,16 @@ namespace MVCWordDictionary
             return result;
         }
 
-        public static MvcHtmlString CustomImage(this HtmlHelper htmlHelper, string src, string alt, int width, int height)
+        public static MvcHtmlString CustomImage(this HtmlHelper htmlHelper, string src, string alt, int width, int height = 0)
         {
             var imageTag = new TagBuilder("image");
             imageTag.MergeAttribute("src", src);
             imageTag.MergeAttribute("alt", alt);
             imageTag.MergeAttribute("width", width.ToString());
-            imageTag.MergeAttribute("height", height.ToString());
-
+            if (height != 0)
+            {
+                imageTag.MergeAttribute("height", height.ToString());
+            }
             return MvcHtmlString.Create(imageTag.ToString(TagRenderMode.SelfClosing));
         }
 
@@ -57,5 +60,15 @@ namespace MVCWordDictionary
             }
             return null;
         }
+
+        public static HelperResult RenderSection(this WebPageBase webPage, string name, Func<dynamic, HelperResult> defaultContents)
+        {
+            if (webPage.IsSectionDefined(name))
+            {
+                return webPage.RenderSection(name);
+            }
+            return defaultContents(null);
+        }
+
     }
 }

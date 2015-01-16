@@ -4,8 +4,6 @@
     ViewBag.Title = "Manager Add News";
 }
 
-
-
 @using ( Html.BeginForm("Create", "News", FormMethod.Post, new { enctype = "multipart/form-data" }) )
 {
     @Html.AntiForgeryToken()
@@ -95,7 +93,7 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 
-@Scripts.Render("~/bundles/fckeditor");
+@Scripts.Render("~/bundles/fckeditor")
 
 @section scripts{
     <script type="text/javascript">
