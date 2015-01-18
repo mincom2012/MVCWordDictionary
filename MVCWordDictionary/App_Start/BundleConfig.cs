@@ -36,6 +36,9 @@ namespace MVCWordDictionary
                       "~/Content/site.css",
                       "~/Content/CustomStyleSheet.css"));
 
+            bundles.Add(new StyleBundle("~/Content/themes/jquery-ui").Include(
+                "~/Content/themes/base/jquery-ui.css"));
+
             bundles.Add(new StyleBundle("~/Content/themes/css").Include(
                  "~/Content/themes/base/base.css",
                  "~/Content/themes/ui-lightness/jquery-ui.ui-lightness.css"

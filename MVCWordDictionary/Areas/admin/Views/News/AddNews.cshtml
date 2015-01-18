@@ -9,8 +9,6 @@
     @Html.AntiForgeryToken()
     <div class="col-md-12 right">
 
-        @*@Html.ActionLink(" ", "Preview", new { objNews =  @Model}, new { @class = "btn btn-danger glyphicon glyphicon-search pull-right", @title = "Preview", @target = "_blank", @style = "margin-bottom:8px" })*@
-
         @Ajax.ActionLink(" ", "Preview", null, new AjaxOptions
 {
     HttpMethod = "POST",
@@ -52,10 +50,17 @@
                 </div>
             </div>
 
+            @*@Html.HiddenFor(item => item.ImageThumb)*@
             <div class="form-group">
                 @Html.LabelFor(model => model.ImageThumb, new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.ImageThumb, new { type = "file", accept = "image/*", onchange = "chose_image(this, event);" })
+                    <span>
+                        @Html.TextBoxFor(model => model.ImageThumb, new { type = "file", accept = "image/*", onchange = "chose_image(this, event);" })
+                    </span>
+                    <span>
+                        @Html.DisplayFor(item => item.ImageThumb)
+                    </span>
+                    
                     @Html.ValidationMessageFor(model => model.ImageThumb)
                 </div>
                 <div id="img" class="col-md-2 col-sm-offset-2 thumbnail" style="display:none">
@@ -123,7 +128,9 @@
         }
         //http://stackoverflow.com/questions/12828347/ajax-actionlink-post-entire-model-from-a-view
         function preview_client(args) {
-            var model = @Html.Raw(Json.Encode(Model))
+            @*var model = @Html.Raw(Json.Encode(Model))*@
+
+            @*var model = '@Json.Encode(Model)';
 
             $.ajax({
                 url: args,
@@ -135,7 +142,7 @@
                     //window.open("http://localhost:11446/tintuc/PreviewThumb/", "popupWindow", "width=600,height=800,scrollbars=yes");
                     alert(result.Title);
                 }
-            });
+            });*@
             return false;
         }
 

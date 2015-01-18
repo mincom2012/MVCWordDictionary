@@ -1,0 +1,25 @@
+﻿@model IEnumerable<MVCWordDictionary.Models.Comment>
+
+@foreach ( var item in Model )
+{
+    <li id="list-comment" class="list-group-item" onmouseover="CommentMouseOver();" style="position:relative">
+        <div class="bs-example" data-example-id="media-alignment">
+            <div class="media">
+                <a href="#" class="media-left">
+                    <img alt="64x64" data-src="holder.js/64x64" style="width: 64px; height: 64px;" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PGRlZnMvPjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjEyLjUiIHk9IjMyIiBzdHlsZT0iZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQ7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9nPjwvc3ZnPg==" data-holder-rendered="true">
+                </a>
+                <div class="media-body">
+                    <h4 class="media-heading">Comment as Guest</h4>
+                    <span>@item.Contents</span>
+                </div>
+            </div>
+        </div>
+        <div style=" color: red; font-weight: lighter; position: absolute; right: 5px" class="glyphicon glyphicon-remove"></div>
+    </li>
+}
+
+<script type="text/javascript">
+    function CommentMouseOver() {
+
+    }
+</script>

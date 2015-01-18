@@ -16,7 +16,7 @@ namespace MVCWordDictionary.Models
 
             [Required]
             [StringLength(maximumLength:255)]
-            [MaxWords(10)]
+            [MaxWords(255)]
             public string Title { get; set; }
 
             [Required]

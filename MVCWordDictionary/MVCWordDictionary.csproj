@@ -47,6 +47,9 @@
     <Reference Include="PagedList">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
     </Reference>
+    <Reference Include="RouteDebugger">
+      <HintPath>..\packages\routedebugger.2.1.4.0\lib\net40\RouteDebugger.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -167,22 +170,26 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Areas\admin\adminAreaRegistration.cs" />
+    <Compile Include="Areas\admin\Controllers\CommentController.cs" />
     <Compile Include="Authorization\CustomMembershipProvider.cs" />
     <Compile Include="Class\CommonHelper.cs" />
     <Compile Include="Class\CommonExtension.cs" />
     <Compile Include="Class\Enum.cs" />
     <Compile Include="Class\RssReader.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="ClassBase\BaseController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
-    <Compile Include="Controllers\NewsController.cs" />
+    <Compile Include="Areas\admin\Controllers\NewsController.cs" />
     <Compile Include="Controllers\SupplyController.cs" />
     <Compile Include="Controllers\WordController.cs" />
     <Compile Include="CustomAttributes\InputMarkAttribute.cs" />
     <Compile Include="CustomAttributes\MaxCountAttribute.cs" />
     <Compile Include="Entities\Category.cs" />
+    <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\DatabBinderAttribute.cs" />
     <Compile Include="Entities\Location.cs" />
     <Compile Include="Entities\News.cs" />
@@ -242,6 +249,7 @@
     <Compile Include="Models\Comment.cs">
       <DependentUpon>WordModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CommentRespository.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\IRepository.cs" />
     <Compile Include="Models\Lesson.cs">
@@ -320,6 +328,7 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
     <Content Include="Content\themes\ui-lightness\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
     <Content Include="Content\themes\ui-lightness\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
     <Content Include="Content\themes\ui-lightness\images\ui-bg_flat_10_000000_40x100.png" />
@@ -451,6 +460,9 @@
     <Content Include="Scripts\fckeditor\_samples\php\sampleposteddata.php" />
     <Content Include="Scripts\fckeditor\_samples\py\sample01.py" />
     <Content Include="Scripts\fckeditor\_samples\py\sampleposteddata.py" />
+    <Content Include="Areas\admin\Views\web.config" />
+    <Content Include="Areas\admin\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\admin\Views\Shared\_Layout.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\fckeditor\editor\css\behaviors\disablehandles.htc" />
     <Content Include="Scripts\fckeditor\editor\css\behaviors\showtableborders.htc" />
@@ -991,19 +1003,24 @@
     <Content Include="Views\Supply\Edit.cshtml" />
     <Content Include="Views\Supply\Index.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\String.cshtml" />
-    <Content Include="Views\News\Index.cshtml" />
-    <Content Include="Views\News\AddNews.cshtml" />
-    <Content Include="Views\News\Delete.cshtml" />
-    <Content Include="Views\News\Edit.cshtml" />
-    <Content Include="Views\News\Preview.cshtml" />
+    <Content Include="Areas\admin\Views\News\Index.cshtml" />
+    <Content Include="Areas\admin\Views\News\AddNews.cshtml" />
+    <Content Include="Areas\admin\Views\News\Delete.cshtml" />
+    <Content Include="Areas\admin\Views\News\Edit.cshtml" />
+    <Content Include="Areas\admin\Views\News\Preview.cshtml" />
     <Content Include="Views\Shared\QuickEditNewsPartial.cshtml" />
-    <Content Include="Views\News\DetailNews.cshtml" />
+    <Content Include="Areas\admin\Views\News\DetailNews.cshtml" />
     <Content Include="Views\Shared\Comment.cshtml" />
+    <Content Include="Views\Shared\Comment\_InsertComment.cshtml" />
+    <Content Include="Views\Shared\Comment\_ListComment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\admin\Models\" />
+    <Folder Include="Areas\admin\Views\Comment\" />
     <Folder Include="Content\Images\News\Thumb_news\" />
     <Folder Include="Content\Userfiles\image\" />
+    <Folder Include="Views\Comment\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

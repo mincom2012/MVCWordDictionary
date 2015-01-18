@@ -11,21 +11,26 @@ using System.Web.Helpers;
 using MVCWordDictionary.Enumeration;
 using System.IO;
 using System.Configuration;
+using MVCWordDictionary.Controllers;
 
-namespace MVCWordDictionary.Controllers
+namespace MVCWordDictionary.Admin.Controllers
 {
     public class NewsController : Controller, IBaseController<News>
     {
         IRepository<News> service = new NewsRepository();
 
-        public ActionResult Index(int? pageIndex)
+        #region "Interface"
+
+
+
+        public ActionResult Index( int? pageIndex )
         {
             IQueryable<News> lst = service.GetAll();
             ViewData["RowCounts"] = lst.Count();
             ViewData["PageIndex"] = pageIndex == null ? 0 : pageIndex;
 
             ViewBag.DisplayDescription = true;
-            if (Request.QueryString["Mode"] == null || Request.QueryString["Mode"] == "list")
+            if ( Request.QueryString["Mode"] == null || Request.QueryString["Mode"] == "list" )
             {
                 ViewBag.DisplayDescription = false;
             }
@@ -33,10 +38,22 @@ namespace MVCWordDictionary.Controllers
             return View(lst);
         }
 
-        public ActionResult QuickEdit(Guid id)
+        public ActionResult QuickEdit( Guid id )
         {
             var news = service.GetDetail(id);
             return PartialView("~/Views/Shared/QuickEditNewsPartial.cshtml", news);
+        }
+
+        [HttpPost]
+        public ActionResult QuickEditUpdate( Guid id, string title, string description )
+        {
+            var news = service.GetDetail(id);
+            news.Title = title;
+            news.Description = description;
+            news.ModifiedDate = DateTime.Now;
+            service.Update(news);
+            service.Save();
+            return RedirectToAction("Index");
         }
 
         public ActionResult Show()
@@ -49,7 +66,7 @@ namespace MVCWordDictionary.Controllers
             List<SelectListItem> lst = new List<SelectListItem>();
 
             var lst1 = Enum.GetValues(typeof(NewsType));
-            foreach (var item in lst1)
+            foreach ( var item in lst1 )
             {
                 var obj = EnumResource.ResourceManager.GetString(typeof(NewsType).Name + "_" + item.ToString());
                 lst.Add(new SelectListItem { Value = Convert.ToInt32(item).ToString(), Text = obj });
@@ -61,11 +78,11 @@ namespace MVCWordDictionary.Controllers
             return View("AddNews");
         }
 
-        public ActionResult Create(News obj)
+        public ActionResult Create( News obj )
         {
             var imgthumb = Request.Files["imageThumb"];
 
-            if (imgthumb.ContentLength > 0)
+            if ( imgthumb != null && imgthumb.ContentLength > 0 )
             {
                 var fileName = Path.GetFileName(imgthumb.FileName);
                 string imageNews_thumb = ConfigurationManager.AppSettings["ImageNews_Thumb"].ToString();
@@ -76,7 +93,7 @@ namespace MVCWordDictionary.Controllers
 
             obj.ModifiedDate = DateTime.Now;
 
-            if (obj.NewID == Guid.Empty)
+            if ( obj.NewID == Guid.Empty )
             {
                 obj.NewID = Guid.NewGuid();
                 obj.CreatedDate = DateTime.Now;
@@ -91,22 +108,10 @@ namespace MVCWordDictionary.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
-        public JsonResult Preview(News model)
-        {
-            News objNew = new News()
-            {
-                NewID = Guid.NewGuid(),
-                Description = "Description"
-            };
-            return Json(model);
-        }
-
-
-        public ActionResult Edit(object id)
+        public ActionResult Edit( object id )
         {
             var news = service.GetDetail(new Guid(id.ToString()));
-            if (news == null)
+            if ( news == null )
             {
                 throw new Exception("The record not exists.");
             }
@@ -114,7 +119,7 @@ namespace MVCWordDictionary.Controllers
             List<SelectListItem> lst = new List<SelectListItem>();
 
             var lst1 = Enum.GetValues(typeof(NewsType));
-            foreach (var item in lst1)
+            foreach ( var item in lst1 )
             {
                 var obj = EnumResource.ResourceManager.GetString(typeof(NewsType).Name + "_" + item.ToString());
                 lst.Add(new SelectListItem { Value = Convert.ToInt32(item).ToString(), Text = obj });
@@ -123,16 +128,17 @@ namespace MVCWordDictionary.Controllers
 
             ViewBag.lstNewType = lst;
 
+            var result = Json(news, JsonRequestBehavior.AllowGet);
             return View("AddNews", news);
 
         }
 
-        public ActionResult Update(News obj)
+        public ActionResult Update( News obj )
         {
             throw new NotImplementedException();
         }
 
-        public ActionResult Delete(object id)
+        public ActionResult Delete( object id )
         {
             service.Delete(new Guid(id.ToString()));
             service.Save();
@@ -140,10 +146,10 @@ namespace MVCWordDictionary.Controllers
 
         }
 
-        public ActionResult Detail(Guid id)
+        public ActionResult Detail( Guid id )
         {
             var news = service.GetDetail(id);
-            if (news == null)
+            if ( news == null )
             {
                 throw new Exception("Do not item");
             }
@@ -151,7 +157,43 @@ namespace MVCWordDictionary.Controllers
             return View("DetailNews", news);
         }
 
+        #endregion
 
+        #region "Internal Method"
+
+
+        
+        //Preview when add new or edit 
+        [HttpPost]
+        public ActionResult Preview( News model )
+        {
+            if ( model == null )
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+
+            return View("Preview", model);
+        }
+
+        //Preview when press key link
+        public ActionResult Preview( Guid? id )
+        {
+            if ( id == null )
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            
+            var news = service.GetDetail(id.Value);
+
+            if ( news == null )
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+
+            return View("Preview", news);
+        }
+
+        #endregion
     }
 }
 

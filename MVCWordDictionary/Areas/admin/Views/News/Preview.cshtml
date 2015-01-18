@@ -1,0 +1,64 @@
+﻿@model MVCWordDictionary.Models.News
+
+@{
+    ViewBag.Title = "Preview news";
+    var comemntCount = Model.Comment.Count;
+    var comment = new MVCWordDictionary.Models.Comment();
+    comment.NewID = Model.NewID;
+    comment.CreatedDate = DateTime.Now;
+    comment.ModifiedDate = DateTime.Now;
+
+    //var comment = Model.Comment.FirstOrDefault();
+    //if ( comment == null )
+    //{
+    //    comment = new MVCWordDictionary.Models.Comment();
+    //    comment.NewID = Model.NewID;
+    //    comment.CreatedDate = DateTime.Now;
+    //    comment.ModifiedDate = DateTime.Now;
+    //}
+}
+
+<div id="box_details_news" class="col-md-8">
+    
+    <div class="block_timer">
+        <span class="txt_666">
+            @CommonHelper.DisplayBlockTimmer(Model.ModifiedDate.Value)
+        </span>
+    </div>
+
+    <div>
+        <h2>
+            @Html.DisplayFor(item => item.Title)
+        </h2>
+    </div>
+
+
+    <div>
+        <h4>
+            @Html.DisplayFor(item => item.Description)
+        </h4>
+    </div>
+
+    <div>
+        @Html.Raw(Model.Contents)
+    </div>
+
+    <div style="text-align:right">
+        <strong>
+            @Html.DisplayFor(item => item.Author)
+        </strong>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="col-md-4">
+    <ul class="list-group" id="commnetid">
+        <li class="list-group-item active">
+            <span class="badge">@comemntCount</span>
+            Comments
+        </li>
+        @Html.Partial("~/Views/Shared/Comment/_InsertComment.cshtml", comment)
+        @Html.Partial("~/Views/Shared/Comment/_ListComment.cshtml", Model.Comment)
+    </ul>
+</div>
+
+

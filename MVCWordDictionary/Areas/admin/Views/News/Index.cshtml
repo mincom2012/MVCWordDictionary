@@ -40,17 +40,17 @@
             <th></th>
         </tr>
 
-        @foreach (var item in Model)
+        @foreach ( var item in Model )
         {
             <tr id="row" onmouseover="row_onmouseover(this);" onmouseout="row_onmouseout(this);">
                 <td class="col-md-1">
                     @Html.CustomImage(CommonHelper.DisplayImageNewsThumb(item.ImageThumb), item.ImageThumb, 120, 0)
                 </td>
 
-                <td class="col-md-4">
+                <td class="col-md-7">
                     <div>
                         @Html.ActionLink(item.Title, "Edit", new { id = item.NewID }, new { @style = "font-weight:bold" })
-                        @if (ViewBag.DisplayDescription)
+                        @if ( ViewBag.DisplayDescription )
                         {
                             <p id="description" style="font-style:italic">
                                 @Html.Raw(item.Description)
@@ -72,6 +72,16 @@
                                                                        }, new { @class = "btn glyphicon glyphicon-edit", @title = "Quick edit", @id = item.NewID })
                             <span class="icon-text">Quick edit</span>
                         </span>
+                        <span>
+                            @Html.ActionLink(" ", "Preview", new { id = item.NewID }, new { @class = "btn glyphicon glyphicon-search", @title = "Preview", @target = "_blank" })
+                            @*@Ajax.ActionLink(" ", "Preview", null, new AjaxOptions
+                                {
+                                    HttpMethod="Post",
+                                    OnBegin ="retun preview_client();"
+                                },
+                                new { @class = "btn glyphicon glyphicon-search", @title = "Preview", @target = "_blank" })*@
+                            <span class="icon-text">Preview</span>
+                        </span>
                         <span style="word-wrap:break-word">
                             @Ajax.ActionLink(" ", "Delete", new { id = item.NewID }, new AjaxOptions
                                                                        {
@@ -87,13 +97,13 @@
                 <td class="col-md-1">
                     @Html.DisplayFor(modelItem => item.Author)
                 </td>
-                <td class="col-md-2">
+                <td class="col-md-1">
                     @CommonHelper.ConvertValueToStringEnum(typeof(MVCWordDictionary.Enumeration.NewsType), item.NewType.Value)
                 </td>
-                <td class="col-md-2">
+                <td class="col-md-1">
                     @Html.DisplayFor(modelItem => item.ModifiedDate)
                 </td>
-                <td class="col-md-2">
+                <td class="col-md-1">
                     <div style="float:right">
                         @Html.ActionLink(" ", "Edit", new { id = item.NewID }, new { @class = "btn btn-warning glyphicon glyphicon-pencil" })
                         @Ajax.ActionLink(" ", "Delete", new { id = item.NewID }, new AjaxOptions
@@ -113,6 +123,8 @@
 <div id="dialog-confirm" title="Empty the recycle bin?" style="display:none">
     <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Do you want to delete?</p>
 </div>
+
+<div id="dialog-form" title="Quick edit news">abc</div>
 
 @Html.Partial("_PagingTemplate", ViewData)
 
@@ -171,13 +183,54 @@
                 datatype: "json",
                 data: JSON.stringify(obj),
                 success: function (result) {
-                    $('#quickedit').html(result);
-                    //$('#quickedit').css('position', 'absolute').css('top', '100px');
-                    //alert($('#' + args).find(".row-active").html());
+                    $('#dialog-form').html(result);
+                    dialog.dialog('open');
                 }
             });
             return false;
         }
+
+        dialog = $('#dialog-form').dialog({
+            autoOpen: false,
+            height: 300,
+            width: 800,
+            modal: true,
+            buttons: {
+                "submit": {
+                    text: "submit",
+                    class: "btn btn-primary",
+                    click: function () {
+                        var id = $('#dialog-form #NewID').val();
+                        var title = $('#dialog-form #Title').val();
+                        var description = $('#dialog-form #Description').val();
+                        var obj = new Object();
+                        obj.id = id;
+                        obj.title = title;
+                        obj.description = description;
+                        var url = "@Url.Action("QuickEditUpdate", "News")"
+
+                        $.ajax({
+                            url: url,
+                            type: 'POST',
+                            contentType: 'application/json; charset=utf-8',
+                            datatype: "json",
+                            data: JSON.stringify(obj),
+                            success: function (result) {
+                                dialog.dialog('close');
+                                window.location.href = "@Url.Action("Index", "News")";
+                            }
+                        });
+                    }
+                },
+                Cancel: {
+                    text: "Cancel",
+                    class: "btn btn-primary",
+                    click: function () {
+                        dialog.dialog('close')
+                    }
+                }
+            }
+        });
 
         function list_onclick(sender) {
             $("#description").css('visibility', 'visible');
@@ -192,6 +245,7 @@
             $('#list').removeClass('color-visible').addClass('color-unvisible')
             return false;
         }
+
     </script>
 
 }

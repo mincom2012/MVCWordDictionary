@@ -39,8 +39,8 @@ a .hover-underline {
     top: 5px;
 }
 
-.clear{
-    clear:both;
+.clear {
+    clear: both;
 }
 
 
@@ -51,5 +51,37 @@ a .hover-underline {
 }
 
 .txt_666 {
-    color:#666;
+    color: #666;
+}
+
+.navbar-header a {
+    margin-left: 8px !important;
+    margin-top: 5px !important;
+}
+
+.navbar-inverse-bottom {
+    padding-bottom: 4px;
+    background-color: #d9534f;
+    border-color: #eea236;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #fff;
+}
+
+    .navbar-inverse .navbar-brand a:hover {
+        color: blue;
+    }
+
+.container {
+    max-width: 100% !important;
+}
+
+
+.media-left, .media-right, .media-body {
+    display: table-cell;
+    vertical-align: top;
+}
+.media-left, .media > .pull-left {
+    padding-right: 10px;
 }
