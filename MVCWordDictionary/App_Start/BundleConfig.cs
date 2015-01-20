@@ -19,6 +19,9 @@ namespace MVCWordDictionary
                         "~/Scripts/jquery.unobtrusive-ajax*",
                         "~/Scripts/CustomScripts/CustomValidation.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/confirm-bootstrap").Include(
+                      "~/Scripts/confirm-bootstrap.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/fckeditor").Include(
                          "~/Scripts/fckeditor/fckeditor.js"));
 

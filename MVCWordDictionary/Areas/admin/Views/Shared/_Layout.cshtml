@@ -4,9 +4,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mincom &laquo; @ViewBag.Title</title>
-    
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/confirm-bootstrap")
+    @Styles.Render("~/Content/themes/css")
+    @Styles.Render("~/Content/themes/jquery-ui")
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top navbar-inverse-bottom">
@@ -17,7 +25,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink(" ", "Index", "Home", null, new { @class = "navbar-brand btn btn-primary glyphicon glyphicon-home", @title = "Home" })
+                @Html.ActionLink(" ", "Index", "Home", null, new { @class = "navbar-brand btn btn-info glyphicon glyphicon-home", @title = "Home" })
                 @Html.ActionLink("News", "index", "News", null, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
@@ -37,12 +45,7 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryui")
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Styles.Render("~/Content/themes/css")
-    @Styles.Render("~/Content/themes/jquery-ui")
+
     @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -37,7 +37,8 @@ namespace MVCWordDictionary.Models
 
         public void Delete( Guid id )
         {
-            throw new NotImplementedException();
+            var comment = _db.Comment.Where(x => x.CommentID == id).FirstOrDefault();
+            _db.Comment.Remove(comment);
         }
 
         public void Delete( int id )

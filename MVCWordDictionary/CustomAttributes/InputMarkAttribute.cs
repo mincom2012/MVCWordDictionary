@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace CustomAttribute
+namespace MVCWordDictionary.CustomAttribute
 {
     public class InputMarkAttribute : Attribute, IMetadataAware
     {
@@ -45,7 +45,8 @@ namespace CustomAttribute
             }
         }
 
-        public void OnMetadataCreated(ModelMetadata metadata) {
+        public void OnMetadataCreated(ModelMetadata metadata)
+        {
             var lst = Context.Items["Scripts"] as IList<string> ?? new List<string>();
             _count = lst.Count;
             metadata.TemplateHint = templateHint;
@@ -55,5 +56,5 @@ namespace CustomAttribute
         }
     }
 
-    
+
 }

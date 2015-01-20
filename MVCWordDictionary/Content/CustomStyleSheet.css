@@ -82,6 +82,28 @@ a .hover-underline {
     display: table-cell;
     vertical-align: top;
 }
+
 .media-left, .media > .pull-left {
     padding-right: 10px;
+}
+
+.item-visibility {
+    visibility: visible;
+}
+
+.item-hidden {
+    visibility: hidden;
+}
+
+.delete-comment {
+    color: red;
+    font-weight: lighter;
+    position: absolute;
+    right: 5px;
+    cursor: pointer;
+}
+
+.modal-title {
+    /*background-color: #337ab7 !important;*/
+    /*color: #fff;*/
 }

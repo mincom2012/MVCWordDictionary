@@ -12,7 +12,7 @@ namespace MVCWordDictionary.Admin.Controllers
     {
         IRepository<Comment> service = new CommentRespository();
 
-        public ActionResult Index( int? pageIndex )
+        public ActionResult Index(int? pageIndex)
         {
             throw new NotImplementedException();
         }
@@ -27,41 +27,52 @@ namespace MVCWordDictionary.Admin.Controllers
             throw new NotImplementedException();
         }
 
-        public ActionResult Create( Comment obj )
+        public ActionResult Create(Comment obj)
         {
             throw new NotImplementedException();
         }
 
-        public ActionResult Edit( object id )
+        public ActionResult Edit(object id)
         {
             throw new NotImplementedException();
         }
 
-        public ActionResult Update( Comment obj )
+        public ActionResult Update(Comment obj)
         {
             throw new NotImplementedException();
         }
 
-        public ActionResult Delete( object id )
+        public ActionResult Delete(object id)
         {
             throw new NotImplementedException();
         }
 
-        public ActionResult InsertComment( )
+        public ActionResult InsertComment()
         {
-            var comments = service.GetAll();
-            return PartialView("~/Views/Shared/Comment/_InsertComment.cshtml", comments);
+            throw new NotImplementedException();
         }
 
         //Implement when submit in page news
         [HttpPost]
-        public JsonResult InsertComment( Comment obj )
+        public JsonResult InsertComment(Comment obj)
         {
             obj.CommentID = Guid.NewGuid();
+            obj.ModifiedDate = DateTime.Now;
+            obj.CreatedDate = DateTime.Now;
             service.Insert(obj);
             service.Save();
             string result = "<li id='list-comment' class='list-group-item'> " + obj.Contents + " </li>";
+            //var result = RenderViewToString()
             return Json(result);
+        }
+
+        [HttpPost]
+        public JsonResult DeleteComment(Guid id)
+        {
+            service.Delete((Guid)id);
+            service.Save();
+            return Json("Delete completed!");
         }
     }
 }
+

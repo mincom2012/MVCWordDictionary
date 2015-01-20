@@ -1,25 +1,66 @@
 ﻿@model IEnumerable<MVCWordDictionary.Models.Comment>
 
-@foreach ( var item in Model )
+@foreach (var item in Model)
 {
-    <li id="list-comment" class="list-group-item" onmouseover="CommentMouseOver();" style="position:relative">
+    <li class="list-group-item" onmouseover="comment_mouseover(this);" onmouseout="comment_mouseout(this);" style="position:relative">
+        <div id="@item.CommentID" class="glyphicon glyphicon-remove delete-comment item-hidden" title="Delete comment"></div>
         <div class="bs-example" data-example-id="media-alignment">
             <div class="media">
                 <a href="#" class="media-left">
                     <img alt="64x64" data-src="holder.js/64x64" style="width: 64px; height: 64px;" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PGRlZnMvPjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjEyLjUiIHk9IjMyIiBzdHlsZT0iZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQ7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9nPjwvc3ZnPg==" data-holder-rendered="true">
                 </a>
                 <div class="media-body">
-                    <h4 class="media-heading">Comment as Guest</h4>
-                    <span>@item.Contents</span>
+                    <h5 class="media-heading">Comment as Guest</h5>
+                    <div>
+                        <strong>  @item.Contents</strong>
+                    </div>
+                    <div>
+                        <small>
+                            @item.ModifiedDate.Value.ToString("dd/MM/yyyy hh:mm:ss")
+                        </small>
+                    </div>
                 </div>
             </div>
         </div>
-        <div style=" color: red; font-weight: lighter; position: absolute; right: 5px" class="glyphicon glyphicon-remove"></div>
     </li>
 }
 
+
 <script type="text/javascript">
-    function CommentMouseOver() {
+
+    function comment_mouseover(sender) {
+        $(sender).find('.delete-comment').removeClass('item-hidden');
+        $(sender).find('.delete-comment').addClass('item-visibility');
 
     }
+
+    function comment_mouseout(sender) {
+        $(sender).find('.delete-comment').addClass('item-hidden');
+        $(sender).find('.delete-comment').removeClass('item-visibility');
+    }
+
+    $('.delete-comment').confirmModal({
+        confirmTitle: 'Delete',
+        confirmMessage: 'Do you want remove this comment?',
+        confirmOk: 'Accept',
+        confirmDirection: 'rtl',
+        confirmStyle: 'primary',
+        confirmCallback: function (target) {
+            var commentid = $(target).attr('id');
+            var obj = new Object();
+            obj.id = commentid;
+
+            $.ajax({
+                url: '@Url.Action("DeleteComment", "Comment")',
+                type: 'POST',
+                contentType: 'application/json charset=utf-8',
+                datatype: 'json',
+                data: JSON.stringify(obj),
+                success: function (data) {
+                    $('#' + commentid).parent().remove();
+                }
+            });
+        }
+    });
+
 </script>

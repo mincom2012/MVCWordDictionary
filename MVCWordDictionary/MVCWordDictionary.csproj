@@ -173,10 +173,11 @@
     <Compile Include="Areas\admin\adminAreaRegistration.cs" />
     <Compile Include="Areas\admin\Controllers\CommentController.cs" />
     <Compile Include="Authorization\CustomMembershipProvider.cs" />
-    <Compile Include="Class\CommonHelper.cs" />
-    <Compile Include="Class\CommonExtension.cs" />
-    <Compile Include="Class\Enum.cs" />
-    <Compile Include="Class\RssReader.cs" />
+    <Compile Include="ControlHelpers\CommonHelper.cs" />
+    <Compile Include="ControlHelpers\RenderHelper.cs" />
+    <Compile Include="Extention\CommonExtension.cs" />
+    <Compile Include="Extention\Enum.cs" />
+    <Compile Include="Extention\RssReader.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="ClassBase\BaseController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
@@ -368,6 +369,7 @@
       <DependentUpon>WordModel.edmx</DependentUpon>
       <LastGenOutput>WordModel.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\confirm-bootstrap.js" />
     <Content Include="Scripts\CustomScripts\CustomValidation.js" />
     <Content Include="Scripts\fckeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.cfm" />
     <Content Include="Scripts\fckeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.php" />
@@ -463,6 +465,7 @@
     <Content Include="Areas\admin\Views\web.config" />
     <Content Include="Areas\admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="App_Code\UploadImageHelper.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\fckeditor\editor\css\behaviors\disablehandles.htc" />
     <Content Include="Scripts\fckeditor\editor\css\behaviors\showtableborders.htc" />

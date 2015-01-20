@@ -1,12 +1,12 @@
 ﻿@model MVCWordDictionary.Models.Comment
 
 <li class="list-group-item">
-    @using ( Ajax.BeginForm("InsertComment", "Comment", new AjaxOptions { HttpMethod = "Post", InsertionMode = InsertionMode.InsertAfter, UpdateTargetId = "commnetid", OnComplete = "ClearInput" }) )
+    @using (Ajax.BeginForm("InsertComment", "Comment", new AjaxOptions { HttpMethod = "Post", InsertionMode = InsertionMode.InsertAfter, UpdateTargetId = "commnetid", OnComplete = "clearform" }))
     {
         @Html.HiddenFor(item => item.NewID)
         <div class="form-group">
             <div class="form-group">
-                @Html.TextAreaFor(item => item.Contents, new { @class = "form-control" })
+                @Html.TextAreaFor(item => item.Contents, new { @class = "form-control", @placeholder="Input comment..." })
             </div>
             <div class="form-group">
                 <input type="submit" value="Send comment" class="btn btn-primary" />
@@ -16,11 +16,11 @@
 </li>
 
 <script type="text/javascript">
-    jQuery(function ($) {
-        $("#Contents").mask('Please input comment...');
-    });
-    function ClearInput() {
+
+    function clearform() {
         alert('Comment send success. Thank you very much!');
         $("#Contents").val('');
     }
 </script>
+
+

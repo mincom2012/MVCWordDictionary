@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
-using CustomAttribute;
 
 namespace MVCWordDictionary.Models
 {
@@ -46,7 +45,7 @@ namespace MVCWordDictionary.Models
             [Display(Name = "Fax")]
             public string Fax { get; set; }
 
-            [InputMark("Do not Empty")]
+            
             [Display(Name = "Home page")]
             public string HomePage { get; set; }
 

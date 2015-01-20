@@ -1,4 +1,6 @@
-﻿@model IEnumerable<MVCWordDictionary.Models.News>
+﻿@using System.Web.Helpers;
+
+@model IEnumerable<MVCWordDictionary.Models.News>
 
 @{
     ViewBag.Title = "Manager News";
@@ -128,6 +130,7 @@
 
 @Html.Partial("_PagingTemplate", ViewData)
 
+
 @section otherscripts{
     <script type="text/javascript">
         function row_onmouseover(sender) {
@@ -249,3 +252,4 @@
     </script>
 
 }
+

@@ -12,6 +12,7 @@ using MVCWordDictionary.Enumeration;
 using System.IO;
 using System.Configuration;
 using MVCWordDictionary.Controllers;
+using MVCWordDictionary.ControlHelpers;
 
 namespace MVCWordDictionary.Admin.Controllers
 {
@@ -40,8 +41,13 @@ namespace MVCWordDictionary.Admin.Controllers
 
         public ActionResult QuickEdit( Guid id )
         {
+
             var news = service.GetDetail(id);
+            //var obj = RenderHelper("~/Views/Shared/QuickEditNewsPartial.cshtml", news);
+            var obj = RenderHelper.PartialView(this, "~/Views/Shared/QuickEditNewsPartial.cshtml", news);
+
             return PartialView("~/Views/Shared/QuickEditNewsPartial.cshtml", news);
+            //return Json(obj);
         }
 
         [HttpPost]
