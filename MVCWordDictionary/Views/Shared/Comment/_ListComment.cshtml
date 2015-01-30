@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<MVCWordDictionary.Models.Comment>
 
+
 @foreach (var item in Model)
 {
     <li class="list-group-item" onmouseover="comment_mouseover(this);" onmouseout="comment_mouseout(this);" style="position:relative">
@@ -24,6 +25,8 @@
         </div>
     </li>
 }
+
+
 
 
 <script type="text/javascript">

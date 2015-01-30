@@ -107,3 +107,17 @@ a .hover-underline {
     /*background-color: #337ab7 !important;*/
     /*color: #fff;*/
 }
+
+.btn-info {
+    border-color: transparent !important;
+}
+
+.navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand {
+    /*background-color: #f0ad4e !important;*/
+    border-radius:4px;
+}
+
+.navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus {
+    background-color: #f0ad4e !important;
+    color: #ffffff;
+}

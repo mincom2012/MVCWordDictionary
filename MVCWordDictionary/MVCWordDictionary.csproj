@@ -1016,6 +1016,7 @@
     <Content Include="Views\Shared\Comment.cshtml" />
     <Content Include="Views\Shared\Comment\_InsertComment.cshtml" />
     <Content Include="Views\Shared\Comment\_ListComment.cshtml" />
+    <Content Include="Views\Shared\Comment\_ItemComment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

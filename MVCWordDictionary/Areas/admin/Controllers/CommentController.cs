@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using MVCWordDictionary.Controllers;
 using MVCWordDictionary.Models;
+using MVCWordDictionary.ControlHelpers;
 
 namespace MVCWordDictionary.Admin.Controllers
 {
@@ -61,8 +62,8 @@ namespace MVCWordDictionary.Admin.Controllers
             obj.CreatedDate = DateTime.Now;
             service.Insert(obj);
             service.Save();
-            string result = "<li id='list-comment' class='list-group-item'> " + obj.Contents + " </li>";
-            //var result = RenderViewToString()
+            //string result = "<li id='list-comment' class='list-group-item'> " + obj.Contents + " </li>";
+            var result = RenderHelper.PartialView(this, "~/Views/Shared/Comment/_ItemComment.cshtml", obj);
             return Json(result);
         }
 
